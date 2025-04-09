@@ -9,6 +9,8 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import FormField from "./FormField";
+import { useRouter } from "next/navigation";
 
 const authFormSchema = (type: FormType) => {
   return z.object({
@@ -20,6 +22,7 @@ const authFormSchema = (type: FormType) => {
 
 const AuthForm = ({ type }: { type: FormType }) => {
   const formSchema = authFormSchema(type);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -34,8 +37,10 @@ const AuthForm = ({ type }: { type: FormType }) => {
     try {
       if (type === "signIn") {
         console.log("SIGN IN", values);
+        router.push('/');
       } else {
         console.log("SIGN UP", values);
+        router.push('/sign-in');
       }
     } catch (e) {
       console.log(e);
@@ -56,9 +61,28 @@ const AuthForm = ({ type }: { type: FormType }) => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-8 w-full mt-4 "
           >
-            {type === "signUp" && <p>Name</p>}
-            <p>Email</p>
-            <p>Password</p>
+            {type === "signUp" && (
+              <FormField
+                control={form.control}
+                name="name"
+                label="Name"
+                placeholder="Enter Username"
+              />
+            )}
+            <FormField
+              control={form.control}
+              name="email"
+              label="Email"
+              placeholder="Email Address"
+              type="email"
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              label="Password"
+              placeholder="Enter Password"
+              type="password"
+            />
             <Button className="w-full rounded-2xl" type="submit">
               {type === "signUp" ? "Create an account" : "Login"}
             </Button>
