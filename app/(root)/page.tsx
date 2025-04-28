@@ -14,8 +14,8 @@ async function Home() {
   if (!user) redirect("/sign-up");
 
   const [userInterviews, allInterview] = await Promise.all([
-    getInterviewsByUserId(user?.id),
-    getLatestInterviews({ userId: user?.id }),
+    getInterviewsByUserId(user?.id!),
+    getLatestInterviews({ userId: user?.id! }),
   ]);
 
   const hasPastInterviews = userInterviews && userInterviews.length > 0;
