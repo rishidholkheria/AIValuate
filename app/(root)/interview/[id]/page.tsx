@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { redirect } from "next/navigation";
+import { redirect } from "next/navigation"; 
 
 import Agent from "@/components/Agent";
 import { getRandomInterviewCover } from "@/lib/utils";
@@ -15,6 +15,7 @@ const InterviewDetails = async ({ params }: RouteParams) => {
   const { id } = await params;
 
   const user = await getCurrentUser();
+  if (!user) redirect("/sign-up");
 
   const interview = await getInterviewById(id);
   if (!interview) redirect("/");
