@@ -1,6 +1,7 @@
 "use server";
 
 import { auth, db } from "@/firebase/admin";
+import { FirebaseError } from "firebase/app";
 import { cookies } from "next/headers";
 
 // Session duration ---- 1 week
@@ -15,7 +16,7 @@ export async function setSessionCookie(idToken: string) {
   });
 
   cookieStore.set("session", sessionCookie, {
-    maxAge: SESSION_DURATION,
+    maxAge: SESSION_DURATION, 
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     path: "/",
@@ -43,10 +44,10 @@ export async function signUp(params: SignUpParams) {
       success: true,
       message: "Account created successfully. Please sign in.",
     };
-  } catch (error: any) {
+  }  catch (error: unknown) {
     console.error("Error creating user:", error);
 
-    if (error.code === "auth/email-already-exists") {
+    if (error instanceof FirebaseError && error.code === "auth/email-already-exists") {
       return {
         success: false,
         message: "This email is already in use",
@@ -107,7 +108,7 @@ export async function getCurrentUser(): Promise<User | null> {
       ...userRecord.data(),
       id: userRecord.id,
     } as User;
-  } catch (error) {
+  } catch (error: unknown) {
     console.log(error);
     return null;
   }
