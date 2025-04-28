@@ -35,6 +35,10 @@ const Agent = ({
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [lastMessage, setLastMessage] = useState<string>("");
 
+  console.log('userName', userName)
+  console.log('userId', userId)
+  console.log('interviewId', interviewId)
+
   useEffect(() => {
     const onCallStart = () => {
       setCallStatus(CallStatus.ACTIVE);
