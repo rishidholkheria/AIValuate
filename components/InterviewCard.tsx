@@ -4,11 +4,11 @@ import Image from "next/image";
 import { getRandomInterviewCover } from "@/public/utils";
 
 const InterviewCard = ({
-  interviewId,
-  userId,
+  // interviewId,
+  // userId,
   role,
   type,
-  techstack,
+  // techstack,
   createdAt,
 }: InterviewCardProps) => {
   const feedback = null as Feedback | null;

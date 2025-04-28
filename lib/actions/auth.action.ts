@@ -72,8 +72,8 @@ export async function signIn(params: SignInParams) {
       };
 
     await setSessionCookie(idToken);
-  } catch (error: any) {
-    console.log("");
+  } catch (error) {
+    console.log("Error : ",error);
 
     return {
       success: false,
@@ -109,7 +109,6 @@ export async function getCurrentUser(): Promise<User | null> {
     } as User;
   } catch (error) {
     console.log(error);
-
     return null;
   }
 }
